@@ -1,15 +1,16 @@
-﻿/* 
-*  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. 
-*  See LICENSE in the source repository root for complete license information. 
+﻿/*
+*  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+*  See LICENSE in the source repository root for complete license information.
 */
 
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Graph;
+using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.AppConfig;
+using MicrosoftGraphAspNetCoreConnectSample.Extensions;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
-using Microsoft.Graph;
-using MicrosoftGraphAspNetCoreConnectSample.Extensions;
-using Microsoft.Identity.Client.AppConfig;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Helpers
 {
@@ -20,8 +21,13 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Helpers
 
         public GraphAuthProvider(IConfiguration configuration)
         {
+            var path = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (String.IsNullOrEmpty(path))
+            {
+                path = "Production";
+            }
             var azureOptions = new AzureAdOptions();
-            configuration.Bind("AzureAd", azureOptions);
+            configuration.Bind("AzureAd"+ path, azureOptions);
 
             // More info about MSAL Client Applications: https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Client-Applications
             _app = ConfidentialClientApplicationBuilder.Create(azureOptions.ClientId)
@@ -38,11 +44,14 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Helpers
         public async Task<string> GetUserAccessTokenAsync(string userId)
         {
             var account = await _app.GetAccountAsync(userId);
-            if (account == null) throw new ServiceException(new Error
+            if (account == null)
             {
-                Code = "TokenNotFound",
-                Message = "User not found in token cache. Maybe the server was restarted."
-            });
+                throw new ServiceException(new Error
+                {
+                    Code = "TokenNotFound",
+                    Message = "User not found in token cache. Maybe the server was restarted."
+                });
+            }
 
             try
             {

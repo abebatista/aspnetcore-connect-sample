@@ -1,16 +1,16 @@
-﻿/* 
-*  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. 
-*  See LICENSE in the source repository root for complete license information. 
+﻿/*
+*  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+*  See LICENSE in the source repository root for complete license information.
 */
 
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using MicrosoftGraphAspNetCoreConnectSample.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
-using Microsoft.AspNetCore.Hosting;
+using MicrosoftGraphAspNetCoreConnectSample.Helpers;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 {
@@ -73,7 +73,11 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             }
             catch (ServiceException se)
             {
-                if (se.Error.Code == "Caller needs to authenticate.") return new EmptyResult();
+                if (se.Error.Code == "Caller needs to authenticate.")
+                {
+                    return new EmptyResult();
+                }
+
                 return RedirectToAction("Error", "Home", new { message = "Error: " + se.Error.Message });
             }
         }

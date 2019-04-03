@@ -1,0 +1,74 @@
+{
+  "appId": "edeaaa34-ef01-4dfd-8d46-42d16280593d",
+  "appRoles": [],
+  "availableToOtherTenants": true,
+  "displayName": "abebatistacore",
+  "errorUrl": null,
+  "groupMembershipClaims": null,
+  "optionalClaims": null,
+  "acceptMappedClaims": null,
+  "homepage": "https://abebatistacore.azurewebsites.net/signin-oidc",
+  "informationalUrls": {
+    "privacy": null,
+    "termsOfService": null
+  },
+  "identifierUris": [
+    "https://rydertruck.onmicrosoft.com/abebatistacore"
+  ],
+  "keyCredentials": [],
+  "knownClientApplications": [],
+  "logoutUrl": null,
+  "oauth2AllowImplicitFlow": true,
+  "oauth2AllowUrlPathMatching": false,
+  "oauth2Permissions": [
+    {
+      "adminConsentDescription": "Allow the application to access abebatistacore on behalf of the signed-in user.",
+      "adminConsentDisplayName": "Access abebatistacore",
+      "id": "5366ae5b-640c-48d7-9a69-822675773e39",
+      "isEnabled": true,
+      "type": "User",
+      "userConsentDescription": "Allow the application to access abebatistacore on your behalf.",
+      "userConsentDisplayName": "Access abebatistacore",
+      "value": "user_impersonation"
+    }
+  ],
+  "oauth2RequirePostResponse": false,
+  "objectId": "2073dab0-b33f-4f12-8d48-059f19085d5b",
+  "parentalControlSettings": {
+    "countriesBlockedForMinors": [],
+    "legalAgeGroupRule": "Allow"
+  },
+  "passwordCredentials": [
+    {
+      "customKeyIdentifier": "QwBsAGkAZQBuAHQAUwBlAGMAcgBlAHQA",
+      "endDate": "2299-12-31T05:00:00Z",
+      "keyId": "cccb1b07-d0a2-4369-94fa-10e35cbe261b",
+      "startDate": "2019-04-03T15:00:47.2772044Z",
+      "value": null
+    }
+  ],
+  "publicClient": false,
+  "replyUrls": [
+    "https://abebatistacore.azurewebsites.net/signin-oidc"
+  ],
+  "requiredResourceAccess": [
+    {
+      "resourceAppId": "00000002-0000-0000-c000-000000000000",
+      "resourceAccess": [
+        {
+          "id": "311a71cc-e848-46a1-bdf8-97ff7156d8e6",
+          "type": "Scope"
+        },
+        {
+          "id": "cba73afc-7f69-4d86-8450-4978e04ecd1a",
+          "type": "Scope"
+        },
+        {
+          "id": "a42657d6-7f20-40e3-b6f0-cee03008a62a",
+          "type": "Scope"
+        }
+      ]
+    }
+  ],
+  "samlMetadataUrl": null
+}

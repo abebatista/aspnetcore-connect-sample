@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using MicrosoftGraphAspNetCoreConnectSample.Helpers;
+using System;
+using System.Threading.Tasks;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Extensions
 {
@@ -82,7 +82,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Extensions
 
                         var result = await _authProvider.GetUserAccessTokenByAuthorizationCode(code);
 
-                        // Check whether the login is from the MSA tenant. 
+                        // Check whether the login is from the MSA tenant.
                         // The sample uses this attribute to disable UI buttons for unsupported operations when the user is logged in with an MSA account.
                         var currentTenantId = context.Principal.FindFirst(Startup.TenantIdType).Value;
                         if (currentTenantId == "9188040d-6c67-4c5b-b112-36a304b66dad")
