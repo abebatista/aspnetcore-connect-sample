@@ -261,5 +261,6 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Helpers
 
             await graphClient.Me.SendMail(email, true).Request().PostAsync();
         }
+        
     }
 }

@@ -104,5 +104,45 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        // Send an email message from the current user.
+        public async Task<IActionResult> ReadEmails()
+        {
+            try
+            {
+                // Initialize the GraphServiceClient.
+                var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
+
+                var mailResults = await graphClient.Me.MailFolders.Inbox.Messages.Request()
+                    .OrderBy("receivedDateTime DESC")
+                    .Select("*")
+                    .Top(10)
+                    //.Skip(10)
+                    //.Filter("receivedDateTime ge 1900-01-01T00:00:00Z and hasAttachments eq true")
+                    .Filter("receivedDateTime ge 2019-04-03 and hasAttachments eq true")
+                    .Expand("attachments")
+                    .GetAsync();
+
+
+                // Send the email.
+                //await GraphService.SendEmail(graphClient, _env, recipients, HttpContext);
+
+                // Reset the current user's email address and the status to display when the page reloads.
+                //TempData["mailResults"] = mailResults.CurrentPage;
+                //TempData["Message"] = "OK";
+                //return RedirectToAction("mailResults");
+                return View(mailResults.CurrentPage);
+            }
+            catch (ServiceException se)
+            {
+                if (se.Error.Code == "Caller needs to authenticate.")
+                {
+                    return new EmptyResult();
+                }
+
+                return RedirectToAction("Error", "Home", new { message = "Error: " + se.Error.Message });
+            }
+        }
     }
 }
