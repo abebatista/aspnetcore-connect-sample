@@ -8,8 +8,8 @@
     <Authors>Mark Szabo</Authors>
     <Company>Microsoft</Company>
     <Product>Microsoft Graph</Product>
-    <AssemblyVersion>2019.4.8.38</AssemblyVersion>
-    <FileVersion>2019.4.8.38</FileVersion>
+    <AssemblyVersion>2019.4.8.40</AssemblyVersion>
+    <FileVersion>2019.4.8.40</FileVersion>
   </PropertyGroup>
   
   <ItemGroup>

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -27,7 +28,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             _graphSdkHelper = graphSdkHelper;
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         // Load user's profile.
         public async Task<IActionResult> Index(string email)
         {
@@ -48,7 +49,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         // Send an email message from the current user.
         public async Task<IActionResult> SendEmail(string recipients)
@@ -82,13 +83,13 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             }
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Contact()
         {
             return View();
@@ -105,7 +106,7 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         // Send an email message from the current user.
         public async Task<IActionResult> ReadEmails()
         {
@@ -114,7 +115,8 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 // Initialize the GraphServiceClient.
                 var graphClient = _graphSdkHelper.GetAuthenticatedClient((ClaimsIdentity)User.Identity);
 
-                var mailResults = await graphClient.Me.MailFolders.Inbox.Messages.Request()
+                //var mailResults = await graphClient.Me.MailFolders.Inbox.Messages.Request()
+                var mailResults = await graphClient.Me.Messages.Request()
                     .OrderBy("receivedDateTime DESC")
                     .Select("*")
                     .Top(10)
@@ -144,5 +146,44 @@ namespace MicrosoftGraphAspNetCoreConnectSample.Controllers
                 return RedirectToAction("Error", "Home", new { message = "Error: " + se.Error.Message });
             }
         }
+
+        /*
+             Item that is attached to the message could be requested like this (documentation)(https://docs.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0#request-2):
+             var attachmentRequest = graphClient.Me.MailFolders.Inbox.Messages[message.Id]
+            .Attachments[attachment.Id].Request().Expand("microsoft.graph.itemattachment/item").GetAsync();
+            var itemAttachment = (ItemAttachment)attachmentRequest.Result;
+            var itemMessage = (Message) itemAttachment.Item;  //get attached message
+            Console.WriteLine(itemMessage.Body);  //print message body
+
+            Example
+            Demonstrates how to get attachments and save it into file if attachment is a file and read the attached message if attachment is an item:
+
+            var request = graphClient.Me.MailFolders.Inbox.Messages.Request().Expand("attachments").GetAsync();
+            var messages = request.Result;
+            foreach (var message in messages)
+            {
+                foreach(var attachment in message.Attachments)
+                {
+                    if (attachment.ODataType == "#microsoft.graph.itemAttachment")
+                    {
+
+                        var attachmentRequest = graphClient.Me.MailFolders.Inbox.Messages[message.Id]
+                                    .Attachments[attachment.Id].Request().Expand("microsoft.graph.itemattachment/item").GetAsync();
+                        var itemAttachment = (ItemAttachment)attachmentRequest.Result;
+                        var itemMessage = (Message) itemAttachment.Item;  //get attached message
+                        //...
+                    }
+                    else
+                    {
+                        var fileAttachment = (FileAttachment)attachment;
+                        System.IO.File.WriteAllBytes(System.IO.Path.Combine(downloadPath,fileAttachment.Name), fileAttachment.ContentBytes);
+                    }
+                }
+            }
+            
+
+        */
+
+
     }
 }
